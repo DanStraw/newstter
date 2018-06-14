@@ -33,38 +33,35 @@ app.get("/scrape", function(req, res) {
                 .children("div.card__headline").children("a.card__link").attr("href");
             result.link = 'https://www.huffingtonpost.com' + result.link;
             if (result.title !== '') {
-                console.log(result.title)
                 results.push(result)
             } 
         })
-        console.log(results)
         res.send(results)
     })
-    .then(getArticles())
 })
 
-app.get("/save", function(req, res) {
-    console.log(res.body)
-    // db.Article.create(result)
-    // .then(function(dbArticle) {
-    //     console.log(dbArticle)
-    // })
-    // .catch(function(err) {
-    //     return res.json(err);
-    // })
+app.put("/save", function(req, res) {
+    const result = req.body;
+    db.Article.create(result)
+    .then(function(dbArticle) {
+        console.log(dbArticle)
+    })
+    .catch(function(err) {
+        return res.json(err);
+    })
 })
 
-function getArticles() {
-    app.get("/articles", function(req, res) {
-        db.Article.find({})
-        .then(function(dbArticle) {
-        res.json(dbArticle)
-        })
-        .catch(function(err) {
-            res.json(err)
-        })
-    });
-}
+// function getArticles() {
+//     app.get("/articles", function(req, res) {
+//         db.Article.find({})
+//         .then(function(dbArticle) {
+//         res.json(dbArticle)
+//         })
+//         .catch(function(err) {
+//             res.json(err)
+//         })
+//     });
+// }
     
 
 app.listen(PORT, function() {

@@ -39,9 +39,6 @@ function scrape() {
         url: "/scrape"
     })
     .then(function(data) {
-        console.log("========")
-        console.log(data);
-        console.log("========")
         // location.reload();
         showArticles(data);
     })
@@ -56,6 +53,15 @@ $(document).on("click", ".save-button", function(event) {
         link: $("#" + index + "-link").attr("href")
     }
     console.log(result)
+    $.ajax({
+        method: "PUT",
+        url: "/save",
+        data: result
+    }).then(function(data) {
+        console.log("SAVED: " + (data))
+    }).catch(function(error) {
+        return error;
+    })
 })
 $("#scrape").on("click", scrape);
   
