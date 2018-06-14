@@ -1,0 +1,9 @@
+.card {
+    width: 30vw;
+    height: auto;
+    margin: 20px;
+}
+.card-header {
+    font-weight: bold;
+    color: green;
+}
