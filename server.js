@@ -10,6 +10,7 @@ const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlin
 const db = require("./models");
 const PORT = 3000;
 const app = express();
+const path = require("path");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
@@ -40,7 +41,7 @@ app.get("/scrape", function(req, res) {
     })
 })
 
-app.put("/save", function(req, res) {
+app.post("/save", function(req, res) {
     const result = req.body;
     db.Article.create(result)
     .then(function(dbArticle) {
@@ -51,18 +52,51 @@ app.put("/save", function(req, res) {
     })
 })
 
-// function getArticles() {
-//     app.get("/articles", function(req, res) {
-//         db.Article.find({})
-//         .then(function(dbArticle) {
-//         res.json(dbArticle)
-//         })
-//         .catch(function(err) {
-//             res.json(err)
-//         })
-//     });
-// }
-    
+app.post("/articles/:id", function(req, res) {
+    db.Comment.create(req.body)
+    .then(function(dbComment) {
+        return db.Article.findOneAndUpdate({ _id: req.params.id }, { $push: { comments: dbComment._id } }, { new: true });
+    })        
+    .then(function(dbArticle) {
+        res.json(dbArticle);
+    })
+    .catch(function(error) {
+        console.log(error);
+    })
+})
+
+app.get("/articles/:id", function(req, res) {
+    db.Article.findOne({ _id: req.params.id })
+      .populate("comments")
+      .then(function(dbArticle) {
+          console.log(dbArticle)
+        res.json(dbArticle);
+      })
+      .catch(function(err) {
+        res.json(err);
+      });
+  });
+
+
+app.get("/articles", function(req, res) {
+    db.Article.find({})
+    .then(function(dbArticle) {
+        res.json(dbArticle)
+    })
+    .catch(function(err) {
+        res.json(err)
+    })
+});
+
+
+
+app.get("/", function(req, res) {
+    res.sendFile(path.join(__dirname, "./public/index.html"));
+});
+
+app.get("/saved-articles", function(req, res) {
+    res.sendFile(path.join(__dirname, "./public/saved-articles.html"));
+});
 
 app.listen(PORT, function() {
     console.log("App running on port http://localhost:" + PORT);

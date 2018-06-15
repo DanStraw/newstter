@@ -1,9 +1,52 @@
+body {
+    background-image: url('./assets/images/connectwork.png')
+}
+
+.jumbotron {
+    background-image: url('./assets/images/country-quilt.png')
+}
+
 .card {
-    width: 30vw;
+    width: 45vw;
     height: auto;
     margin: 20px;
+}
+.scrape-card {
+    width: 34vw;
+    position: relative;
 }
 .card-header {
     font-weight: bold;
     color: green;
+    background-image: url('./assets/images/binding_light.png')
+}
+
+.article-info, .scraped-card-body {
+    background-image: url('./assets/images/ps_neutral.png')
+}
+
+.comment-div {
+    border-left: green ridge 2px;
+    width: 300px;
+    background-image: url('./assets/images/ps_neutral.png')
+}
+
+.comment-display {
+    margin-right: 5px;
+}
+
+.card-image {
+    width: 150px;
+    height: 150px;
+}
+.card-text {
+    width: 90%;
+}
+
+.add-comment-btn, .comment-text-area {
+    position: absolute;
+    bottom: 0px;
+}
+.add-comment-btn {
+    left: 200px;
 }
