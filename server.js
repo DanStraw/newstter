@@ -15,6 +15,7 @@ const path = require("path");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
 
 app.get("/scrape", function(req, res) {
