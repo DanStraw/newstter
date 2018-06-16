@@ -6,6 +6,8 @@ const axios = require("axios");
 
 
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI);
 
 const db = require("./models");
 const PORT = 3000;
@@ -15,8 +17,7 @@ const path = require("path");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI);
+
 
 app.get("/scrape", function(req, res) {
     axios.get("https://www.huffingtonpost.com/").then(function(response) {  
